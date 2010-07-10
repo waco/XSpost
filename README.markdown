@@ -8,6 +8,7 @@ Version
 
 + 0.0.1 2010/10/14 リリース
 + 0.0.2 2010/10/29 JavascriptのAPIも書いた
++ 0.0.3 2010/10/30 コールバック機能の実装
 
 Usage 
 -----
@@ -27,10 +28,9 @@ Javascriptからpostします。
 xspost.post(url, params)を呼び出します。
 paramsには以下の値を指定することができます。
 
-+ data: 送信する内容。クエリ文字列ではなく、javascriptオブジェクト
++ data: 送信する内容。クエリ文字列。
 + success: 送信成功時のコールバック関数
 + failure: 送信失敗時のコールバック関数
-+ response: 送信完了時のステータスコードを取得する。ただし、対応しているブラウザがほとんどない
 
 サンプルコード
     <script type="text/javascript">
@@ -51,8 +51,23 @@ xspostをインスタンス名として使えません。
 
 Flashを読み込むのは少し時間が掛かるため、時間をおいてからpostする必要があります。
 
-スレッドセーフな感じではないので、同時に複数のpostをする場合、
-コールバック関数が上書きされる可能性があります。
+動作検証済みブラウザ
+
++ Mac
+    + Firefox 3.6.12 with FlashPlayer 10.1.85
+    + Safari 5.0.2 with FlashPlayer 10.1.85
+
++ Windows 7
+    + Internet Explorer 8.0.7600 with FlashPlayer 10.0.45
+    + Firefox 3.6.3 with FlashPlayer 10.1.85
+    + Google Chrome 7.0.517 with FlashPlayer 10.1.85
+
++ Windows XP
+    + Internet Explorer 8.0.6001 with FlashPlayer 9.0.47
+    + Firefox 3.6.3 with FlashPlayer 10.0.42
+    + Google Chrome 7.0.517 with FlashPlayer 10.0.42
+    + Safari 5.0.2 with FlashPlayer 10.0.42
+    + Opera 10.0 with FlashPlayer 10.0.42
 
 動作検証済みブラウザ
 
@@ -68,9 +83,8 @@ Flashを読み込むのは少し時間が掛かるため、時間をおいてか
 Todo
 ----
 
-+ スレッドセーフな感じにする。
-+ embed関数をきれいにする。
 + jqueryのpostと同等の機能を作る。
++ crossdomain.xmlの位置を指定できる機能を作る。
 
  
 copyright 2010 waco, released under the MIT license 
