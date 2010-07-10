@@ -51,10 +51,10 @@ package {
 
     // callback functions
     private function success(id:int):void{
-      if(_successFunction) ExternalInterface.call(_successFunction, id);
+      ExternalInterface.call(_successFunction, id);
     }
     private function failure(id:int):void{
-      if(_failureFunction) ExternalInterface.call(_failureFunction, id);
+      ExternalInterface.call(_failureFunction, id);
     }
   }
 }
