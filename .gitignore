@@ -1,0 +1,10 @@
+.swp
+*~
+doc/*
+tmp/*
+log/*
+uploads/*
+config/database.yml
+config/mongrel_cluster.yml
+db/backup/*
+db/schema.rb
