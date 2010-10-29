@@ -6,6 +6,7 @@ var xspost = function(){
   var _loadflag = false;
   var _player = null;
   var _name = null;
+  var _flashObject = null;
   this.post = function(url, params){
     if(!params) params = {};
     if(!params.data) params.data = {};
@@ -16,7 +17,12 @@ var xspost = function(){
       this.failure();
       return;
     }
+    try{
     _player.xspost(url, params.data);
+    }
+    catch(e){
+      alert(e);
+    }
   }
   this.ready = function(){
     _loadflag = true;
@@ -24,15 +30,24 @@ var xspost = function(){
   }
   this.embed = function(path, name){
     _name = name ? name : 'externalXspost'
+    var flashvars = "ready=xspost.ready&success=xspost.success&failure=xspost.failure&response=xspost.response"
 
-    var code = '<object id="'+_name+'" width="0" height="0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">'+
-    '<param name="allowScriptAccess" value="always" />'+
-    '<param name="src" value="'+path+'" />'+
-    '<param name="flashvars" value="ready=xspost.ready&success=xspost.success&failure=xspost.failure&response=xspost.response" />'+
-    '<embed src='+path+' name="'+_name+'" allowScriptAccess="always" width="0" height="0"'+
-    '  flashvars="ready=xspost.ready&success=xspost.success&failure=xspost.failure&response=xspost.response"></embed>'+
-    '</object>'
-    document.write(code);
+    var fnOld = window.onload;
+    window.onload = function(){
+      if(typeof fnOld == "function") fnOld();
+      var div = document.createElement("div");
+      document.body.appendChild(div);
+      div.setAttribute("id", "xspost");
+      div.innerHTML =
+        '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"'+
+        '  width="0" height="0" id="'+_name+'">'+
+        '  <param name="movie" value="'+path+'" />'+
+        '  <param name="flashvars" value="'+flashvars+'" />'+
+        '  <param name="allowScriptAccess" value="always" />'+
+        '  <embed src="'+path+'" name="'+_name+'" allowScriptAccess="always" '+
+        '    width="0" height="0" flashvars="'+flashvars+'"/>'+
+        '</object>';
+    }
   }
 
   this.success = function(){

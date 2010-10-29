@@ -5,6 +5,9 @@
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <script type="text/javascript" src="javascripts/jquery.js" ></script>
 <script type="text/javascript" src="xspost.js" ></script>
+<script type="text/javascript">
+  xspost.embed('Xspost.swf');
+</script>
 <title>xspost</title>
 </head>
 
@@ -14,16 +17,14 @@
 <input type="submit" value="submit" />
 </form>
 <script type="text/javascript">
-xspost.embed('Xspost.swf');
-
-$('form').bind('submit', function(){
-  xspost.post('http://192.168.70.3/', {
-    data: $('form').serialize(),
-    success: function(){ alert('success'); },
-    failure: function(){ alert('failure'); }
+  $('form').bind('submit', function(){
+    xspost.post('http://192.168.70.3/', {
+      data: $('form').serialize(),
+      success: function(){ alert('success'); },
+      failure: function(){ alert('failure'); }
+    });
+    return false;
   });
-  return false;
-});
 </script>
 </body>
 </html>

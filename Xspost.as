@@ -37,20 +37,42 @@ package {
       request.method = URLRequestMethod.POST;
 
       var loader:URLLoader = new URLLoader();
-      loader.addEventListener(Event.COMPLETE, success);
-      loader.addEventListener(IOErrorEvent.IO_ERROR, failure);
-      loader.addEventListener(HTTPStatusEvent.HTTP_STATUS, response);
-      loader.load(request);
+      loader.addEventListener(Event.COMPLETE, completeHandler);
+      loader.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
+      loader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler);
+      loader.addEventListener(HTTPStatusEvent.HTTP_STATUS, HTTPStatusHandler);
+
+      try{
+        loader.load(request);
+      }
+      catch(e:Error){
+        failure();
+      }
     }
 
-    private function success(event:Event):void{
+    // event handlaers
+    private function completeHandler(event:Event):void{
+      success();
+    }
+    private function ioErrorHandler(event:IOErrorEvent):void{
+      failure();
+    }
+    private function securityErrorHandler(event:SecurityErrorEvent):void{
+      failure();
+    }
+    private function HTTPStatusHandler(event:HTTPStatusEvent):void{
+      response(String(event.status));
+    }
+
+    // callback functions
+    private function success():void{
       if(_successFunction) ExternalInterface.call(_successFunction);
     }
-    private function failure(event:IOErrorEvent):void{
+    private function failure():void{
       if(_failureFunction) ExternalInterface.call(_failureFunction);
     }
-    private function response(event:HTTPStatusEvent):void{
-      if(_responseFunction) ExternalInterface.call(_responseFunction, String(event.status));
+    private function response(status:String):void{
+      if(_responseFunction) ExternalInterface.call(_responseFunction, status);
     }
   }
 }
