@@ -3,49 +3,27 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
-<script type="text/javascript" src="javascripts/jquery.js"></script>
-<script type="text/javascript">
-var Xspost = function(){
-  var self = this;
-
-  var loadflag = false;
-  this.send = function(){
-    if(!self.loadflag) return;
-    var id = "externalXp";
-    var player = navigator.appName.indexOf("Microsoft") != -1 ? window[id] : document[id];
-    player.xspost('http://example.com/', $("form").serialize());
-  }
-  this.ready = function(){
-    self.loadflag = true;
-  }
-  this.success = function(){
-    alert("success");
-  }
-  this.failure = function(){
-    alert("failure");
-  }
-}
-var xspost = new Xspost();
-
-</script>
-
-<object id="externalXp" width="0" height="0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
-<param name="allowScriptAccess" value="always" />
-<param name="src" value="Xspost.swf" />
-<param name="flashvars" value="ready=xspost.ready&success=xspost.success&failure=xspost.failure" />
-<embed src='Xspost.swf' name="externalXp" allowScriptAccess="always" width="0" height="0"
-  flashvars="ready=xspost.ready&success=xspost.success&failure=xspost.failure"></embed>
-</object>
-
+<script type="text/javascript" src="javascripts/jquery.js" ></script>
+<script type="text/javascript" src="xspost.js" ></script>
 <title>xspost</title>
 </head>
 
 <body>
-
 <form id="form">
-<p>
-<input type="button" onclick="xspost.send();" value="送信" />
-</p>
+<input type="text" value="test" name="test" />
+<input type="submit" value="submit" />
 </form>
+<script type="text/javascript">
+xspost.embed('Xspost.swf');
+
+$('form').bind('submit', function(){
+  xspost.post('http://192.168.70.3/', {
+    data: $('form').serialize(),
+    success: function(){ alert('success'); },
+    failure: function(){ alert('failure'); }
+  });
+  return false;
+});
+</script>
 </body>
 </html>

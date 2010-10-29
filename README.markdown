@@ -1,8 +1,13 @@
-XPost
-=====
-
+XSPost
+======
 
 クロスサイトPOSTをFlashを通じて実現する
+
+Version
+-------
+
+- 0.0.1 2010/10/14 リリース
+- 0.0.2 2010/10/29 JavascriptのAPIも書いた
 
 Usage 
 -----
@@ -12,26 +17,46 @@ crossdomain.xmlをPOSTするサーバのルートに設置します
     <allow-access-from domain="*" />
     </cross-domain-policy>
 
-Xspost.swfをHTMLに埋め込みます
-flashvarsにはコールバック関数を指定することができます
-  ready: Xspostが使用可能時
-  success: POST成功時
-  failure: POST失敗時
+Xspost.swfを読み込むためにHTMLに記述します
+    <script type="text/javascript">
+    xspost.embed('Xspost.swf');
+    </script>
 
-    <object id="externalXp" width="0" height="0" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000">
-    <param name="allowScriptAccess" value="always" />
-    <param name="src" value="Xspost.swf" />
-    <param name="flashvars" value="ready=xspost.ready&success=xspost.success&failure=xspost.failure" />
-    <embed src='Xp.swf' name="externalXp" allowScriptAccess="always" width="0" height="0"
-      flashvars="ready=xspost.ready&success=xspost.success&failure=xspost.failure"></embed>
-    </object>
+Javascriptからpostします。
+xspost.post(url, params)を呼び出します。
+paramsには以下の値を指定することができます。
 
-JavascriptからXpostを実行します
-    var id = "externalXp";
-    var player = navigator.appName.indexOf("Microsoft") != -1 ? window[id] : document[id];
-    player.xspost('http://example.com/', $("form").serialize());
+- data: 送信する内容。クエリ文字列ではなく、javascriptオブジェクト
+- success: 送信成功時のコールバック関数
+- failure: 送信失敗時のコールバック関数
+- response: 送信完了時のステータスコードを取得する。ただし、対応しているブラウザがほとんどない
+
+サンプルコード
+    <script type="text/javascript">
+    $('form').bind('submit', function(){
+      xspost.post('http://example.com/', {
+        data: $('form').serialize(),
+        success: function(){ alert('success'); },
+        failure: function(){ alert('failure'); }
+      });
+      return false;
+    });
+    </script>
+
+Attention
+---------
+
+Flashを読み込むのは少し時間が掛かるため、時間をおいてからpostする必要があります。
+
+スレッドセーフな感じではないので、同時に複数のpostをする場合、
+コールバック関数が上書きされる可能性があります。
+
+Todo
+----
+
+- スレッドセーフな感じにする。
+- embed関数をきれいにする。
+- jqueryのpostと同等の機能を作る。
+
  
 copyright 2010 waco, released under the MIT license 
-
-
-
