@@ -1,8 +1,8 @@
 //
 // XSPost: クロスサイトPOSTをFlashを通じて実現する
-// copyright 2010 waco, released under the MIT license 
+// copyright 2010 waco, released under the MIT license
 //
-var xspost = function(){
+var xspost = new function(){
   var _player = null;
   var _name = null;
   var _successFunctions = {};

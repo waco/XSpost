@@ -69,17 +69,6 @@ Flashを読み込むのは少し時間が掛かるため、時間をおいてか
     + Safari 5.0.2 with FlashPlayer 10.0.42
     + Opera 10.0 with FlashPlayer 10.0.42
 
-動作検証済みブラウザ
-
-+ Mac
-    + Firefox 3.6.12 with FlashPlayer 10.1.85.3
-    + Safari 5.0.2 with FlashPlayer 10.1.85.3
-
-+ Windows 7
-    + Internet Explorer 8.0.7600 with FlashPlayer 10.0.45.2
-    + Firefox 3.6.3 with FlashPlayer 10.1.85.3
-    + Google Chrome 7.0.517 with FlashPlayer 10.1.85.3
-
 Todo
 ----
 
