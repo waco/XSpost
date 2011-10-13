@@ -1,20 +1,24 @@
 /*
  * XSPost: クロスサイトPOSTをFlashを通じて実現する
- * copyright 2010 waco, released under the MIT license 
+ * copyright 2010 waco, released under the MIT license
  */
 
 package {
+  import flash.system.Security;
   import flash.display.Sprite;
   import flash.external.ExternalInterface;
   import flash.net.*;
   import flash.events.*;
- 
+
   public class Xspost extends Sprite {
     private var _readyFunction:String = "xspost.ready";
     private var _successFunction:String = "xspost.success";
     private var _failureFunction:String = "xspost.failure";
 
     function Xspost() {
+      //外部ドメインから読み込んだswfでも実行可能に
+      Security.allowDomain("*");
+
       //postするメソッドを外部jsから呼び出せる用にする
       ExternalInterface.addCallback("xspost", xspost);
 
